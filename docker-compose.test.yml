@@ -24,11 +24,11 @@ services:
     image: postgres:12.6-alpine
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pwdpostgre
+      POSTGRES_PASSWORD: ayoKUNU$$1
       POSTGRES_DB: amon-test
       POSTGRES_HOST_AUTH_METHOD: password
     ports:
-      - 5432:5432
+      - 5435:5435
 
   ### Tools
 
