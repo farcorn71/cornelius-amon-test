@@ -57,6 +57,7 @@
         "chai-as-promised": "^7.1.1",
         "chai-date-string": "^0.1.0",
         "codecov": "^3.8.3",
+        "dayjs": "^1.11.0",
         "decimal.js": "^10.3.1",
         "dot-only-hunter": "^1.0.3",
         "dotenv": "^10.0.0",

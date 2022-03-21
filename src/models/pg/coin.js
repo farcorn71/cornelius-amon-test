@@ -19,7 +19,7 @@ module.exports = function(sequelize, DataTypes) {
             },
             price: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
             },
         }, {
             freezeTableName: true,
@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
 
     Coin.prototype.filterKeys = function() {
         const obj = this.toObject();
-        const filtered = pick(obj, 'id', 'name', 'code');
+        const filtered = pick(obj, 'name', 'code', 'price');
 
         return filtered;
     };

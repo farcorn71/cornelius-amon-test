@@ -14,13 +14,12 @@ function logUmzugEvent(eventName) {
 // https://github.com/abelnation/sequelize-migration-hello
 
 const Migrate = {
-    umzug: null,
+    //umzug: null,
 
     SetSequelize(sequelize) {
         if (Migrate.umzug) {
             Migrate.umzug.removeAllListeners();
         }
-
         const parent = new Umzug({
             storage: new SequelizeStorage({ sequelize }),
             context: sequelize.getQueryInterface(),
@@ -138,12 +137,11 @@ const Migrate = {
 };
 
 async function commander() {
-    executedCmd = Migrate.Migrate();
     if (process.argv.length < 2) {
         throw new Error('need params');
     }
-
-    const cmd = process.argv[2].trim();
+    //const cmd = process.argv[2].trim();
+    const cmd = 'up';
     let executedCmd;
 
     logger.info(`${cmd.toUpperCase()} BEGIN`, llo({}));

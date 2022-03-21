@@ -1,119 +1,131 @@
 const merge = require('lodash/merge');
 
 const throwError = (message, detail) => {
-  const err = new Error(message);
+    const err = new Error(message);
 
-  merge(err, detail);
+    merge(err, detail);
 
-  throw err;
+    throw err;
 };
 
 const throwExposable = (code, status, description, exposeMeta) => {
-  const error = getError(code);
-  if (!error) {
-    throwError('unknown_error_code', {
-      code,
-      status,
-      description,
-      exposeMeta,
-    });
-  }
-  const err = new Error(code);
-  err.exposeCustom_ = true;
+    const error = getError(code);
+    if (!error) {
+        throwError('unknown_error_code', {
+            code,
+            status,
+            description,
+            exposeMeta,
+        });
+    }
+    const err = new Error(code);
+    err.exposeCustom_ = true;
 
-  err.status = status || error.status;
-  err.description = description || error.description;
-  if (exposeMeta) {
-    err.exposeMeta = exposeMeta;
-  }
+    err.status = status || error.status;
+    err.description = description || error.description;
+    if (exposeMeta) {
+        err.exposeMeta = exposeMeta;
+    }
 
-  throw err;
+    throw err;
 };
 
 function getError(errorCode) {
-  const code = ERRORS[errorCode];
-  if (!errorCode || !code) {
-    return null;
-  }
-  return code;
+    const code = ERRORS[errorCode];
+    if (!errorCode || !code) {
+        return null;
+    }
+    return code;
 }
 
 function assert(condition, ...args) {
-  if (!condition) {
-    throwError(...args);
-  }
+    if (!condition) {
+        throwError(...args);
+    }
 }
 
 function assertExposable(condition, ...args) {
-  if (!condition) {
-    throwExposable(...args);
-  }
+    if (!condition) {
+        throwExposable(...args);
+    }
+}
+
+function assertExposableExist(condition, ...args) {
+    if (condition) {
+        throwExposable(...args);
+    }
 }
 
 const ERRORS = [
-  // API
-  {
-    code: 'unknown_error',
-    status: 500,
-    description: 'Unknown Error',
-  },
-  {
-    code: 'unknown_error_code',
-    status: 500,
-    description: 'Unknown error code',
-  },
-  {
-    code: 'bad_params',
-    status: 400,
-    description: 'Bad parameters',
-  },
-  {
-    code: 'access_denied',
-    status: 401,
-    description: 'You are trying to access to a forbidden resource',
-  },
-  {
-    code: 'forbidden',
-    status: 403,
-    description: 'forbidden',
-  },
-  {
-    code: 'not_found',
-    status: 404,
-    description: 'Not Found',
-  },
-  {
-    code: 'unknown_coin_code',
-    status: 404,
-    description: 'Coin Code not found',
-  },
-  {
-    code: 'entity_too_large',
-    status: 413,
-    description: 'The files you are trying to upload are too big.',
-  },
+    // API
+    {
+        code: 'unknown_error',
+        status: 500,
+        description: 'Unknown Error',
+    },
+    {
+        code: 'unknown_error_code',
+        status: 500,
+        description: 'Unknown error code',
+    },
+    {
+        code: 'bad_params',
+        status: 400,
+        description: 'Bad parameters',
+    },
+    {
+        code: 'access_denied',
+        status: 401,
+        description: 'You are trying to access to a forbidden resource',
+    },
+    {
+        code: 'forbidden',
+        status: 403,
+        description: 'forbidden',
+    },
+    {
+        code: 'not_found',
+        status: 404,
+        description: 'Not Found',
+    },
+    {
+        code: 'unknown_coin_code',
+        status: 404,
+        description: 'Coin Code not found',
+    },
+    {
+        code: 'coin_code_already_exist',
+        status: 400,
+        description: 'Coin Code already Exist',
+    },
+    {
+        code: 'entity_too_large',
+        status: 413,
+        description: 'The files you are trying to upload are too big.',
+    },
 
-  // Internal
-  {
-    code: 'too_busy',
-    status: 503,
-    description: 'Server too busy.',
-  },
+    // Internal
+    {
+        code: 'too_busy',
+        status: 503,
+        description: 'Server too busy.',
+    },
 ].reduce((acc, error) => {
-  acc[error.code] = {
-    status: error.status,
-    description: error.description,
-  };
+    acc[error.code] = {
+        status: error.status,
+        description: error.description,
+    };
 
-  return acc;
+    return acc;
 }, {});
 
 module.exports = {
-  throwError,
-  throwExposable,
-  assert,
-  assertExposable,
-  ERRORS,
+    throwError,
+    throwExposable,
+    assert,
+    assertExposable,
+    assertExposableExist,
+    ERRORS,
 };
 
 /****
