@@ -16,7 +16,7 @@ const CoinController = {
         const mins = tt.diff(ft, "minutes", true);
         const totalHours = parseInt(mins / 60);
 
-        if (!coin.price || coin.price === '0' || (totalHours > 1)) {
+        if (!coin.price || (totalHours > 1)) {
 
             let coin_g_resp = await CoinGeckoService.getCoinByCode(coin.name.toLowerCase());
 
